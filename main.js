@@ -1,0 +1,220 @@
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.178.0/build/three.module.js";
+import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.178.0/examples/jsm/controls/OrbitControls.js";
+import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.178.0/examples/jsm/loaders/GLTFLoader.js";
+import * as BufferGeometryUtils from "https://cdn.jsdelivr.net/npm/three@0.178.0/examples/jsm/utils/BufferGeometryUtils.js";
+
+console.log("Botopsy Starting...");
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x111111);
+
+const grid = new THREE.GridHelper(20, 20);
+scene.add(grid);
+
+const light = new THREE.DirectionalLight(0xffffff, 2);
+light.position.set(5, 10, 5);
+light.castShadow = true;
+scene.add(light);
+
+const camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+);
+
+camera.position.z = 5;
+camera.position.y = 5;
+
+const renderer = new THREE.WebGLRenderer();
+
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+
+document.body.appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+
+const loader = new GLTFLoader();
+
+console.log("Loader Created");
+console.log("Trying to load Model...");
+
+loader.load(
+    "models/kitbot2026.glb",
+
+    (gltf) => {
+        gltf.scene.scale.set(4, 4, 4);
+        gltf.scene.rotation.x = -Math.PI / 2;
+
+        scene.add(gltf.scene);
+
+        const optimizedModel = new THREE.Group();
+        optimizedModel.name = "Optimized KitBot";
+        scene.add(optimizedModel);
+
+        console.log("Preparing geometry optimization...");
+
+        gltf.scene.updateWorldMatrix(true, true);
+
+        const geometryGroups = new Map();
+
+        gltf.scene.traverse((child) => {
+            if (!child.isMesh) return;
+
+            const material = child.material;
+
+            if (!geometryGroups.has(material)) {
+                geometryGroups.set(material, []);
+            }
+
+            const geometry = child.geometry.clone();
+            geometry.applyMatrix4(child.matrixWorld);
+
+            geometryGroups.get(material).push(geometry);
+        });
+
+        console.log("Geometry Groups:", geometryGroups.size);
+        console.log("Merging geometry...");
+
+        for (const [material, geometries] of geometryGroups) {
+            const mergedGeometry =
+                BufferGeometryUtils.mergeGeometries(
+                    geometries,
+                    false
+                );
+
+            if (!mergedGeometry) {
+                console.error(
+                    "Failed to merge geometry for:",
+                    material.name
+                );
+                continue;
+            }
+
+            const mesh = new THREE.Mesh(
+                mergedGeometry,
+                material
+            );
+
+            mesh.castShadow = false;
+            mesh.receiveShadow = false;
+
+            optimizedModel.add(mesh);
+
+            for (const geometry of geometries) {
+                geometry.dispose();
+            }
+        }
+
+        console.log("Optimization complete!");
+
+        gltf.scene.visible = false;
+
+        let meshCount = 0;
+        let triangleCount = 0;
+        const materials = new Set();
+
+        gltf.scene.traverse((child) => {
+            if (child.isMesh) {
+                materials.add(child.material);
+                meshCount++;
+
+                if (child.geometry.index) {
+                    triangleCount += child.geometry.index.count / 3;
+                } else {
+                    triangleCount +=
+                        child.geometry.attributes.position.count / 3;
+                }
+
+                child.frustumCulled = true;
+                child.castShadow = false;
+                child.receiveShadow = false;
+            }
+        });
+
+        console.log("Original Mesh Count:", meshCount);
+        console.log("Original Triangle Count:", triangleCount);
+        console.log("Unique Materials:", materials.size);
+
+        const box =
+            new THREE.Box3().setFromObject(gltf.scene);
+
+        const size =
+            box.getSize(new THREE.Vector3());
+
+        console.log("Model Size:", size);
+    },
+
+    undefined,
+
+    (error) => {
+        console.error(
+            "An error happened while loading the model:",
+            error
+        );
+    }
+);
+
+const floorGeometry =
+    new THREE.PlaneGeometry(20, 20);
+
+const floorMaterial =
+    new THREE.MeshStandardMaterial({
+        color: 0x222222
+    });
+
+const floor =
+    new THREE.Mesh(
+        floorGeometry,
+        floorMaterial
+    );
+
+floor.receiveShadow = true;
+floor.rotation.x = -Math.PI / 2;
+
+scene.add(floor);
+
+let frames = 0;
+let lastTime = performance.now();
+
+setInterval(() => {
+    const now = performance.now();
+
+    const fps =
+        frames / ((now - lastTime) / 1000);
+
+    console.log("FPS:", fps.toFixed(1));
+
+    frames = 0;
+    lastTime = now;
+}, 1000);
+
+function animate() {
+    requestAnimationFrame(animate);
+
+    frames++;
+
+    controls.update();
+
+    renderer.render(
+        scene,
+        camera
+    );
+}
+
+animate();
+
+window.addEventListener("resize", () => {
+    camera.aspect =
+        window.innerWidth /
+        window.innerHeight;
+
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(
+        window.innerWidth,
+        window.innerHeight
+    );
+});
