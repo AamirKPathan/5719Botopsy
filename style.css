@@ -5,11 +5,25 @@ body {
     font-family: Arial, sans-serif;
 }
 
-h1 {
+#title {
     position: absolute;
     top: 20px;
     left: 0;
     width: 100%;
     text-align: center;
+    z-index: 10;
+}
+
+#team {
+    position: absolute;
+    top: 100px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: #ff1493;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    text-shadow: 0 0 5px #ff1493, 0 0 15px #ff1493;
     z-index: 10;
 }
