@@ -47,7 +47,7 @@ loader.load(
     (gltf) => {
         gltf.scene.scale.set(4, 4, 4);
         gltf.scene.rotation.x = -Math.PI / 2;
-        gltf.scene.position.y = 1.1;
+        gltf.scene.position.y = 0.2;
 
         scene.add(gltf.scene);
 
