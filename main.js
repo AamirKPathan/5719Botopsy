@@ -100,7 +100,7 @@ loader.load(
 
             mesh.castShadow = false;
             mesh.receiveShadow = false;
-            
+
             optimizedModel.add(mesh);
 
             for (const geometry of  geometries) {
@@ -175,6 +175,46 @@ floor.receiveShadow = true;
 floor.rotation.x = -Math.PI / 2;
 
 scene.add(floor);
+
+const componentHitboxes = new THREE.Group();
+componentHitboxes.name = "Component Hitboxes";
+scene.add(componentHitboxes);
+
+const driveMotorHitbox = new THREE.Mesh(
+    new THREE.BoxGeometry(1, 1, 1),
+    new THREE.MeshBasicMaterial({
+        transparent: true,
+        opacity: 0
+    })
+);
+
+driveMotorHitbox.userData.componentId = "driver_motor_1";
+driveMotorHitbox.userData.componentName = "Drive Motor 1";
+
+componentHitboxes.add(driveMotorHitbox);
+
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+renderer.domElement.addEventListener("click", (event) => {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+
+    const intersections = raycaster.intersectObjects(
+        componentHitboxes.children,
+        true
+    );
+    if (intersections.length > 0) {
+        const component = intersections[0].object;
+
+        console.log(
+            "Selected:",
+            component.userData.componentName,
+        );
+    }
+});
 
 let frames = 0;
 let lastTime = performance.now();
