@@ -43,7 +43,6 @@ console.log("Trying to load Model...");
 
 loader.load(
     "models/kitbot2026.glb",
-
     (gltf) => {
         gltf.scene.scale.set(4, 4, 4);
         gltf.scene.rotation.x = -Math.PI / 2;
