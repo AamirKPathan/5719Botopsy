@@ -227,7 +227,7 @@ const driveMotorHitbox4 = new THREE.Mesh(
         opacity: 0.5
     })
 );
-driveMotorHitbox4.position.set(-0.5, 0.42, 1.05);
+driveMotorHitbox4.position.set(0.5, 0.42, 1.05);
 driveMotorHitbox4.userData.componentId = "drive_motor_4";
 driveMotorHitbox4.userData.componentName = "Drive Motor 4";
 
