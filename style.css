@@ -7,10 +7,20 @@ body {
 
 #title {
     position: absolute;
-    top: 20px;
+    top: 15px;
     left: 0;
     width: 100%;
     text-align: center;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    text-shadow:
+        0 0 5px white,
+        0 0 15px #ff1493,
+        0 0 30px #ff1493,
     z-index: 10;
 }
 
