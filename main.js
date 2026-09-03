@@ -100,10 +100,10 @@ loader.load(
 
             mesh.castShadow = false;
             mesh.receiveShadow = false;
-
+            
             optimizedModel.add(mesh);
 
-            for (const geometry of geometries) {
+            for (const geometry of  geometries) {
                 geometry.dispose();
             }
         }
