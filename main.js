@@ -207,6 +207,19 @@ driveMotorHitbox2.userData.componentName = "Drive Motor 2";
 
 componentHitboxes.add(driveMotorHitbox2);
 
+const driveMotorHitbox2 = new THREE.Mesh(
+    new THREE.BoxGeometry(0.2, 0.2, 0.2),
+    new THREE.MeshBasicMaterial({
+        transparent: true,
+        opacity: 0.5
+    })
+);
+driveMotorHitbox2.position.set(-0.5, 0.42, 1.35);
+driveMotorHitbox2.userData.componentId = "drive_motor_2";
+driveMotorHitbox2.userData.componentName = "Drive Motor 3";
+
+componentHitboxes.add(driveMotorHitbox3);
+
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
