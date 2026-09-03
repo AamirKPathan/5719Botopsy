@@ -1,0 +1,7 @@
+{
+    "gitdoc.enabled": false,
+    "gitdoc.autoPush": "off",
+    "gitdoc.commitOnClose": false,
+    "git.enableSmartCommit": false,
+    "git.postCommitCommand": "none"
+}
