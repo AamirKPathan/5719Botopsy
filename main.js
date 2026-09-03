@@ -220,16 +220,16 @@ driveMotorHitbox3.userData.componentName = "Drive Motor 3";
 
 componentHitboxes.add(driveMotorHitbox3);
 
-const driveMotorHitbox3 = new THREE.Mesh(
+const driveMotorHitbox4 = new THREE.Mesh(
     new THREE.BoxGeometry(0.2, 0.2, 0.2),
     new THREE.MeshBasicMaterial({
         transparent: true,
         opacity: 0.5
     })
 );
-driveMotorHitbox3.position.set(-0.5, 0.42, 1.05);
-driveMotorHitbox3.userData.componentId = "drive_motor_3";
-driveMotorHitbox3.userData.componentName = "Drive Motor 4";
+driveMotorHitbox4.position.set(-0.5, 0.42, 1.05);
+driveMotorHitbox4.userData.componentId = "drive_motor_4";
+driveMotorHitbox4.userData.componentName = "Drive Motor 4";
 
 componentHitboxes.add(driveMotorHitbox4);
 
