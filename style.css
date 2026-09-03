@@ -20,7 +20,7 @@ body {
     text-shadow:
         0 0 5px white,
         0 0 15px #ff1493,
-        0 0 30px #ff1493,
+        0 0 30px #ff1493;
     z-index: 10;
 }
 
