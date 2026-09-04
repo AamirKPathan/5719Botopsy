@@ -259,6 +259,20 @@ shooterMotorHitbox2.userData.componentName = "Shooter Motor 2";
 
 componentHitboxes.add(shooterMotorHitbox2);
 
+const batteryHitbox = new THREE.Mesh(
+    new THREE.BoxGeometry(0.7, 0.37, 0.3),
+    new THREE.MeshBasicMaterial({
+        transparent: true,
+        opacity: 0.5
+    })
+);
+
+batteryHitbox.position.set(0.4, 0.75, 0.2);
+batteryHitbox.userData.componentId = "battery";
+batteryHitbox.userData.componentName = "Battery";
+
+componentHitboxes.add(batteryHitbox);
+
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
