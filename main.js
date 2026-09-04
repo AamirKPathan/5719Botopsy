@@ -315,6 +315,85 @@ roboRioHitbox.userData.componentName = "RoboRIO";
 
 componentHitboxes.add(roboRioHitbox);
 
+const driveSparkHitbox1 = new THREE.Mesh(
+    new THREE.BoxGeometry(0.17, 0.2, 0.3),
+    new THREE.MeshBasicMaterial({
+        transparent: true,
+        opacity: 0.5
+    })
+);
+driveSparkHitbox1.position.set(-0.8, 0.6, 0.8);
+driveSparkHitbox1.userData.componentId = "drive_spark_1";
+driveSparkHitbox1.userData.componentName = "Drive Spark 1";
+
+componentHitboxes.add(driveSparkHitbox1);
+
+
+const driveSparkHitbox2 = new THREE.Mesh(
+    new THREE.BoxGeometry(0.17, 0.2, 0.3),
+    new THREE.MeshBasicMaterial({
+        transparent: true,
+        opacity: 0.5
+    })
+);
+driveSparkHitbox2.position.set(0.3, 0.6, 0.8);
+driveSparkHitbox2.userData.componentId = "drive_spark_2";
+driveSparkHitbox2.userData.componentName = "Drive Spark 2";
+
+componentHitboxes.add(driveSparkHitbox2);
+
+const driveSparkHitbox3 = new THREE.Mesh(
+    new THREE.BoxGeometry(0.3, 0.2, 0.15),
+    new THREE.MeshBasicMaterial({
+        transparent: true,
+        opacity: 0.5
+    })
+);
+driveSparkHitbox3.position.set(0.5, 0.6, 0.65);
+driveSparkHitbox3.userData.componentId = "drive_spark_3";
+driveSparkHitbox3.userData.componentName = "Drive Spark 3";
+
+componentHitboxes.add(driveSparkHitbox3);
+
+const driveSparkHitbox4 = new THREE.Mesh(
+    new THREE.BoxGeometry(0.3, 0.2, 0.15),
+    new THREE.MeshBasicMaterial({
+        transparent: true,
+        opacity: 0.5
+    })
+);
+driveSparkHitbox4.position.set(0.5, 0.6, 0.8);
+driveSparkHitbox4.userData.componentId = "drive_spark_4";
+driveSparkHitbox4.userData.componentName = "Drive Spark 4";
+
+componentHitboxes.add(driveSparkHitbox4);
+
+const shootSparkHitbox1 = new THREE.Mesh(
+    new THREE.BoxGeometry(0.3, 0.2, 0.15),
+    new THREE.MeshBasicMaterial({
+        transparent: true,
+        opacity: 0.5
+    })
+);
+shootSparkHitbox1.position.set(0.5, 0.6, 0.95);
+shootSparkHitbox1.userData.componentId = "shoot_spark_1";
+shootSparkHitbox1.userData.componentName = "Shoot Spark 1";
+
+componentHitboxes.add(shootSparkHitbox1);
+
+const shootSparkHitbox2 = new THREE.Mesh(
+    new THREE.BoxGeometry(0.3, 0.2, 1.1),
+    new THREE.MeshBasicMaterial({
+        transparent: true,
+        opacity: 0.5
+    })
+);
+shootSparkHitbox2.position.set(0.5, 0.6, 1.1);
+shootSparkHitbox2.userData.componentId = "shoot_spark_2";
+shootSparkHitbox2.userData.componentName = "Shoot Spark 2";
+
+componentHitboxes.add(shootSparkHitbox2);
+
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
