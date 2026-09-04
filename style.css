@@ -133,3 +133,61 @@ body {
     letter-spacing: 2px;
     z-index: 50;
 }
+
+#diagnosticWindow {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
+    padding: 25px;
+    background: #111111;
+    border: 2px solid #ff1493;
+    border-radius: 10px;
+    box-shadow: 
+    0 0 10px #ff1493,
+    0 0 30px #ff1493;
+    z-index: 100;
+}
+
+#diagnosticTitle {
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+#diagnosticStats {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.diagnosticStat {
+    padding: 12px;
+    background: #222222;
+    color: white;
+    border-left: 3px solid #ff1493;
+    font-family: monospace;
+    font-size: 18px;
+}
+
+#closeDiagnosticButton {
+    position:absolute;
+    top: 8px;
+    left: 10px;
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    color: white;
+    border: none;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#closeDiagnosticButton:hover {
+    color: #ff1493;
+}

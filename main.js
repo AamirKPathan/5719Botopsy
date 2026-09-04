@@ -244,6 +244,46 @@ const componentHitboxes = new THREE.Group();
 componentHitboxes.name = "Component Hitboxes";
 scene.add(componentHitboxes);
 
+const diagnosticWindow = document.createElement("div");
+
+diagnosticWindow.id = "diagnosticWindow";
+diagnosticWindow.style.display = "none";
+
+const closeDiagnosticButton = document.createElement("button");
+closeDiagnosticButton.id = "closeDiagnosticButton";
+closeDiagnosticButton.textContent = "X";
+
+diagnosticWindow.appendChild(closeDiagnosticButton);
+
+closeDiagnosticButton.addEventListener("click", () => {
+    diagnosticWindow.style.display = "none";
+});
+
+document.body.appendChild(diagnosticWindow);
+
+const diagnosticTitle = document.createElement("div");
+diagnosticTitle.id = "diagnosticTitle";
+
+const diagnosticStats = document.createElement("div");
+diagnosticStats.id = "diagnosticStats";
+
+diagnosticWindow.appendChild(diagnosticTitle);
+diagnosticWindow.appendChild(diagnosticStats);
+
+function openDiagnosticWindow(component) {
+    diagnosticWindow.style.display = "block";
+
+    diagnosticTitle.textContent = component.userData.componentName;
+
+    diagnosticStats.innerHTML = `
+    <div class = "diagnosticStat">Status -> OFF</div>
+    <div class = "diagnosticStat">RPM -> NONE</div>
+    <div class = "diagnosticStat">Temperature -> NORMAL</div>
+    <div class = "diagnosticStat">CURRENT -> NONE</div>
+    <div class = "diagnosticStat">CONNECTION -> CONNECTED</div>
+    `;
+}
+
 const driveMotorHitbox = new THREE.Mesh(
     new THREE.BoxGeometry(0.2, 0.2, 0.2),
     new THREE.MeshBasicMaterial({
@@ -462,6 +502,8 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 renderer.domElement.addEventListener("click", (event) => {
+    if (!timerRunning) return;
+
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -478,6 +520,10 @@ renderer.domElement.addEventListener("click", (event) => {
             "Selected:",
             component.userData.componentName,
         );
+
+        if (component.userData.componentId === "drive_motor_1") {
+            openDiagnosticWindow(component);
+        }
     }
 });
 
