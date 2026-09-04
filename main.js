@@ -233,6 +233,32 @@ driveMotorHitbox4.userData.componentName = "Drive Motor 4";
 
 componentHitboxes.add(driveMotorHitbox4);
 
+const shooterMotorHitbox1 = new THREE.Mesh(
+    new THREE.BoxGeometry(0.2, 0.2, 0.2),
+    new THREE.MeshBasicMaterial({
+        transparent: true,
+        opacity: 0.5
+    })
+);
+shooterMotorHitbox1.position.set(0.7, 1.52, 1.64);
+shooterMotorHitbox1.userData.componentId = "shooter_motor_1";
+shooterMotorHitbox1.userData.componentName = "Shooter Motor 1";
+
+componentHitboxes.add(shooterMotorHitbox1);
+
+const shooterMotorHitbox2 = new THREE.Mesh(
+    new THREE.BoxGeometry(0.2, 0.2, 0.2),
+    new THREE.MeshBasicMaterial({
+        transparent: true,
+        opacity: 0.5
+    })
+);
+shooterMotorHitbox2.position.set(-0.7, 1.52, 1.64);
+shooterMotorHitbox2.userData.componentId = "shooter_motor_2";
+shooterMotorHitbox2.userData.componentName = "Shooter Motor 2";
+
+componentHitboxes.add(shooterMotorHitbox2);
+
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
