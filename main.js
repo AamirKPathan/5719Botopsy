@@ -39,6 +39,11 @@ startButton.id = "startButton";
 startButton.textContent = "START";
 document.body.appendChild(startButton);
 
+const timerDisplay = document.createElement("div");
+timerDisplay.id = "timer";
+timerDisplay.textContent = "00:00:00";
+document.body.appendChild(timerDisplay);
+
 const issueScreen = document.createElement("div");
 
 issueScreen.id = "issueScreen";
@@ -65,6 +70,32 @@ startButton.addEventListener("click", () => {
     startButton.style.display = "none";
     issueScreen.style.display = "flex";
 });
+
+let gameStartTime = 0;
+let timerRunning = false;
+
+beginButton.addEventListener("click", () => {
+    issueScreen.style.display = "none";
+    gameStartTime = performance.now();
+    timerRunning = true;
+    updateTimer();
+});
+
+function updateTimer() {
+    if (!timerRunning) return;
+    const elapsed = performance.now() - gameStartTime;
+    const minutes = Math.floor(elapsed / 60000);
+    const seconds = Math.floor((elapsed % 60000) / 1000);
+    const milliseconds = Math.floor(elapsed % 1000/10);
+
+    timerDisplay.textContent = 
+        String(minutes).padStart(2, "0") + ":" +
+        String(seconds).padStart(2, "0") + ":" +
+        String(milliseconds).padStart(2, "0");
+
+    requestAnimationFrame(updateTimer);
+}
+
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;

@@ -121,3 +121,15 @@ body {
 #beginButton:hover {
     background: #00c000;
 }
+
+#timer {
+    position: fixed;
+    top: 20px;
+    right: 25px;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    font-family: monospace;
+    letter-spacing: 2px;
+    z-index: 50;
+}
