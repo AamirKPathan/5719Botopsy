@@ -45,10 +45,6 @@ issueScreen.id = "issueScreen";
 
 document.body.appendChild(issueScreen);
 
-const issueScreen = document.createElement("div");
-issueScreen.id = "issueScreen";
-document.body.appendChild(issueScreen);
-
 const issueTitle = document.createElement("div");
 issueTitle.id = "issueTitle";
 issueTitle.textContent = "DIAGNOSTIC CASE";
