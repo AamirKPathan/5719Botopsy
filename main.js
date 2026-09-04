@@ -302,14 +302,14 @@ pdpHitbox.userData.componentName = "PDP";
 componentHitboxes.add(pdpHitbox);
 
 const roboRioHitbox = new THREE.Mesh(
-    new THREE.BoxGeometry(0.3, 0.07, 0.2),
+    new THREE.BoxGeometry(0.6, 0.07, 0.6),
     new THREE.MeshBasicMaterial({
         transparent: true,
         opacity: 0.5
     })
 );
 
-roboRioHitbox.position.set(0.4, 0.75, 0.2);
+roboRioHitbox.position.set(-0.5, 0.7, 0.25);
 roboRioHitbox.userData.componentId = "roborio";
 roboRioHitbox.userData.componentName = "RoboRIO";
 
