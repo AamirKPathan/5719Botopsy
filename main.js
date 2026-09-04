@@ -33,6 +33,12 @@ renderer.shadowMap.enabled = true;
 
 document.body.appendChild(renderer.domElement);
 
+const startButton = document.createElement("button");
+
+startButton.id = "startButton";
+startButton.textContent = "START";
+document.body.appendChild(startButton);
+
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 
