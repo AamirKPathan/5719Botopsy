@@ -39,6 +39,37 @@ startButton.id = "startButton";
 startButton.textContent = "START";
 document.body.appendChild(startButton);
 
+const issueScreen = document.createElement("div");
+
+issueScreen.id = "issueScreen";
+
+document.body.appendChild(issueScreen);
+
+const issueScreen = document.createElement("div");
+issueScreen.id = "issueScreen";
+document.body.appendChild(issueScreen);
+
+const issueTitle = document.createElement("div");
+issueTitle.id = "issueTitle";
+issueTitle.textContent = "DIAGNOSTIC CASE";
+
+const issueText = document.createElement("div");
+issueText.id = "issueText";
+issueText.textContent = "ISSUE: Drive Motor 2 is not responding.";
+
+const beginButton = document.createElement("button");
+beginButton.id = "beginButton";
+beginButton.textContent = "BEGIN";
+
+issueScreen.appendChild(issueTitle);
+issueScreen.appendChild(issueText);
+issueScreen.appendChild(beginButton);
+
+startButton.addEventListener("click", () => {
+    startButton.style.display = "none";
+    issueScreen.style.display = "flex";
+});
+
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 
