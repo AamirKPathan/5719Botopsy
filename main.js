@@ -287,6 +287,34 @@ breakerHitbox.userData.componentName = "Breaker";
 
 componentHitboxes.add(breakerHitbox);
 
+const pdpHitbox = new THREE.Mesh(
+    new THREE.BoxGeometry(0.6, 0.07, 0.3),
+    new THREE.MeshBasicMaterial({
+        transparent: true,
+        opacity: 0.5
+    })
+);
+
+pdpHitbox.position.set(-0.125, 0.7, 0.8);
+pdpHitbox.userData.componentId = "pdp";
+pdpHitbox.userData.componentName = "PDP";
+
+componentHitboxes.add(pdpHitbox);
+
+const roboRioHitbox = new THREE.Mesh(
+    new THREE.BoxGeometry(0.3, 0.07, 0.2),
+    new THREE.MeshBasicMaterial({
+        transparent: true,
+        opacity: 0.5
+    })
+);
+
+roboRioHitbox.position.set(0.4, 0.75, 0.2);
+roboRioHitbox.userData.componentId = "roborio";
+roboRioHitbox.userData.componentName = "RoboRIO";
+
+componentHitboxes.add(roboRioHitbox);
+
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
