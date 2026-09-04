@@ -240,7 +240,7 @@ const shooterMotorHitbox1 = new THREE.Mesh(
         opacity: 0.5
     })
 );
-shooterMotorHitbox1.position.set(0.7, 1.52, 1.64);
+shooterMotorHitbox1.position.set(0.7, 1.5, 1.64);
 shooterMotorHitbox1.userData.componentId = "shooter_motor_1";
 shooterMotorHitbox1.userData.componentName = "Shooter Motor 1";
 
@@ -253,7 +253,7 @@ const shooterMotorHitbox2 = new THREE.Mesh(
         opacity: 0.5
     })
 );
-shooterMotorHitbox2.position.set(-0.7, 1.52, 1.64);
+shooterMotorHitbox2.position.set(-0.7, 1.5, 1.64);
 shooterMotorHitbox2.userData.componentId = "shooter_motor_2";
 shooterMotorHitbox2.userData.componentName = "Shooter Motor 2";
 
