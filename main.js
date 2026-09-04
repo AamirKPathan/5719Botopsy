@@ -273,6 +273,20 @@ batteryHitbox.userData.componentName = "Battery";
 
 componentHitboxes.add(batteryHitbox);
 
+const breakerHitbox = new THREE.Mesh(
+    new THREE.BoxGeometry(0.2, 0.07, 0.2),
+    new THREE.MeshBasicMaterial({
+        transparent: true,
+        opacity: 0.5
+    })
+);
+
+breakerHitbox.position.set(-1.15, 0.7, 0.8);
+breakerHitbox.userData.componentId = "breaker";
+breakerHitbox.userData.componentName = "Breaker";
+
+componentHitboxes.add(breakerHitbox);
+
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
