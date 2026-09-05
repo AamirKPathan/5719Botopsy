@@ -96,6 +96,109 @@ function updateTimer() {
     requestAnimationFrame(updateTimer);
 }
 
+const robotState = {
+
+    drive_motor_1: {
+        status: "ON",
+        rpm: "NORMAL",
+        temperature: "NORMAL",
+        current: "NORMAL",
+        connection: "CONNECTED"
+    },
+    drive_motor_2: {
+        status: "ON",
+        rpm: "NORMAL",
+        temperature: "NORMAL",
+        current: "NORMAL",
+        connection: "CONNECTED"
+    },
+    drive_motor_3: {
+        status: "ON",
+        rpm: "NORMAL",
+        temperature: "NORMAL",
+        current: "NORMAL",
+        connection: "CONNECTED"
+    },
+    drive_motor_4: {
+        status: "ON",
+        rpm: "NORMAL",
+        temperature: "NORMAL",
+        current: "NORMAL",
+        connection: "CONNECTED"
+    },
+    shooter_motor_1: {
+        status: "ON",
+        rpm: "NORMAL",
+        temperature: "NORMAL",
+        current: "NORMAL",
+        connection: "CONNECTED"
+    },
+    shooter_motor_2: {
+        status: "ON",
+        rpm: "NORMAL",
+        temperature: "NORMAL",
+        current: "NORMAL",
+        connection: "CONNECTED"
+    },
+    driver_spark_1: {
+        status: "ON",
+        temperature: "NORMAL",
+        current: "NORMAL",
+        connection: "CONNECTED"
+    },
+    driver_spark_2: {
+        status: "ON",
+        temperature: "NORMAL",
+        current: "NORMAL",
+        connection: "CONNECTED"
+    },
+    driver_spark_3: {
+        status: "ON",
+        temperature: "NORMAL",
+        current: "NORMAL",
+        connection: "CONNECTED"
+    },
+    driver_spark_4: {
+        status: "ON",
+        temperature: "NORMAL",
+        current: "NORMAL",
+        connection: "CONNECTED"
+    },
+    shooter_spark_1: {
+        status: "ON",
+        temperature: "NORMAL",
+        current: "NORMAL",
+        connection: "CONNECTED"
+    },
+    shooter_spark_2: {
+        status: "ON",
+        temperature: "NORMAL",
+        current: "NORMAL",
+        connection: "CONNECTED"
+    },
+    battery: {
+        status: "ON",
+        voltage: "NORMAL",
+        temperature: "NORMAL",
+        connection: "CONNECTED"
+    },
+    breaker: {
+        status: "ON",
+        connection: "CONNECTED"
+    },
+    pdp: {
+        status: "ON",
+        connection: "CONNECTED",
+        temperature: "NORMAL"
+    },
+    roborio: {
+        status: "ON",
+        connection: "CONNECTED"
+    }
+
+};
+console.log("Robot State Engine Loaded");
+console.log(robotState);
 
 
 const controls = new OrbitControls(camera, renderer.domElement);
