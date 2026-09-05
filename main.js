@@ -97,6 +97,7 @@ function updateTimer() {
 }
 
 
+
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 
@@ -269,21 +270,27 @@ diagnosticStats.id = "diagnosticStats";
 
 diagnosticWindow.appendChild(diagnosticTitle);
 diagnosticWindow.appendChild(diagnosticStats);
-
+ 
 function openDiagnosticWindow(component) {
     diagnosticWindow.style.display = "block";
 
     diagnosticTitle.textContent = component.userData.componentName;
 
     diagnosticStats.innerHTML = `
-    <div class = "diagnosticStat">Status -> OFF</div>
-    <div class = "diagnosticStat">RPM -> NONE</div>
-    <div class = "diagnosticStat">Temperature -> NORMAL</div>
-    <div class = "diagnosticStat">CURRENT -> NONE</div>
-    <div class = "diagnosticStat">CONNECTION -> CONNECTED</div>
+    <div class = "diagnosticStat" data-stat="status">Status -> OFF</div>
+    <div class = "diagnosticStat" data-stat="rpm">RPM -> NONE</div>
+    <div class = "diagnosticStat" data-stat="temperature">Temperature -> NORMAL</div>
+    <div class = "diagnosticStat" data-stat="current">CURRENT -> NONE</div>
+    <div class = "diagnosticStat" data-stat="connection">CONNECTION -> CONNECTED</div>
     `;
 }
+diagnosticStats.addEventListener("click", () => {
+    const stat = event.target.closest(".diagnosticStat");
 
+    if (!stat) return;
+
+    console.log("Selected stat:", stat.getAttribute("data-stat"));
+});
 const driveMotorHitbox = new THREE.Mesh(
     new THREE.BoxGeometry(0.2, 0.2, 0.2),
     new THREE.MeshBasicMaterial({
