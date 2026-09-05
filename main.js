@@ -379,13 +379,28 @@ function openDiagnosticWindow(component) {
 
     diagnosticTitle.textContent = component.userData.componentName;
 
-    diagnosticStats.innerHTML = `
-    <div class = "diagnosticStat" data-stat="status">Status -> OFF</div>
-    <div class = "diagnosticStat" data-stat="rpm">RPM -> NONE</div>
-    <div class = "diagnosticStat" data-stat="temperature">Temperature -> NORMAL</div>
-    <div class = "diagnosticStat" data-stat="current">CURRENT -> NONE</div>
-    <div class = "diagnosticStat" data-stat="connection">CONNECTION -> CONNECTED</div>
-    `;
+    const componentId = component.userData.componentName;
+    const state = 
+    robotState[componentId];
+
+    if (!state) {
+        console.error(
+            "No state found for ",
+            componentId
+        );
+        return;
+    }
+    diagnosticStats.innerHTML = "";
+
+    for (const [statName, statValue] of Object.entries(state)) {
+        const stat = document.createElement("div");
+        stat.className = "diagnosticStat";
+        stat.dataset.stat = statName;
+        stat.textContent = 
+        statName.toUpperCase() + " -> " + statValue;
+
+        diagnosticStats.appendChild(stat);
+    }
 }
 diagnosticStats.addEventListener("click", () => {
     const stat = event.target.closest(".diagnosticStat");
