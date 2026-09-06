@@ -379,7 +379,7 @@ function openDiagnosticWindow(component) {
 
     diagnosticTitle.textContent = component.userData.componentName;
 
-    const componentId = component.userData.componentName;
+        const componentId = component.userData.componentId;
     const state = 
     robotState[componentId];
 
@@ -402,7 +402,7 @@ function openDiagnosticWindow(component) {
         diagnosticStats.appendChild(stat);
     }
 }
-diagnosticStats.addEventListener("click", () => {
+diagnosticStats.addEventListener("click", (event) => {
     const stat = event.target.closest(".diagnosticStat");
 
     if (!stat) return;
