@@ -140,37 +140,37 @@ const robotState = {
         current: "NORMAL",
         connection: "CONNECTED"
     },
-    driver_spark_1: {
+    drive_spark_1: {
         status: "ON",
         temperature: "NORMAL",
         current: "NORMAL",
         connection: "CONNECTED"
     },
-    driver_spark_2: {
+    drive_spark_2: {
         status: "ON",
         temperature: "NORMAL",
         current: "NORMAL",
         connection: "CONNECTED"
     },
-    driver_spark_3: {
+    drive_spark_3: {
         status: "ON",
         temperature: "NORMAL",
         current: "NORMAL",
         connection: "CONNECTED"
     },
-    driver_spark_4: {
+    drive_spark_4: {
         status: "ON",
         temperature: "NORMAL",
         current: "NORMAL",
         connection: "CONNECTED"
     },
-    shooter_spark_1: {
+    shoot_spark_1: {
         status: "ON",
         temperature: "NORMAL",
         current: "NORMAL",
         connection: "CONNECTED"
     },
-    shooter_spark_2: {
+    shoot_spark_2: {
         status: "ON",
         temperature: "NORMAL",
         current: "NORMAL",
@@ -200,6 +200,63 @@ const robotState = {
 console.log("Robot State Engine Loaded");
 console.log(robotState);
 
+let activeFaults = [];
+
+function resetRobotState() {
+    for (const componentId in robotState) {
+        const component = robotState[componentId];
+        for (const stat in component) {
+            if (stat === "status") {
+                component[stat] = "ON";
+            }
+            else if (stat === "connection") {
+                component[stat] = "CONNECTED";
+            }
+            else {
+                component[stat] = "NORMAL";
+            }
+        }
+    }
+}
+
+function setRootFault(componentId, faultType) {
+    activeFaults = [];
+    resetRobotState();
+
+    const fault = {
+        componentId: componentId,
+        faultType: faultType
+    };
+
+    activeFaults.push(fault);
+
+    console.log("Root Fault Created:", fault);
+
+    applyFaultPropagation();
+    console.log("Robot State After Fault Propagation:", robotState);
+}
+
+setRootFault (
+    "drive_spark_2",
+    "POWER_DISCONNECTED"
+)
+
+function applyFaultPropagation() {
+    for (const fault of activeFaults) {
+
+        if (
+            fault.componentId === "drive_spark_2" &&
+            fault.faultType === "DISCONNECTED"
+        ) {
+            robotState.drive_spark_2.status = "OFF";
+            robotState.drive_spark_2.connection = "DISCONNECTED";
+
+            robotState.drive_motor_2.status = "OFF";
+            robotState.drive_motor_1.rpm = "NONE";
+            robotState.drive_motor_1.current = "NONE";
+        }
+    }
+}
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
