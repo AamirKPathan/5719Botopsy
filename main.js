@@ -703,7 +703,12 @@ renderer.domElement.addEventListener("click", (event) => {
             component.userData.componentName,
         );
 
-        if (component.userData.componentId === "drive_motor_1") {
+        const componentId = component.userData.componentId;
+        const isMotor =
+            componentId.startsWith("drive_motor_") ||
+            componentId.startsWith("shooter_motor_");
+
+        if (isMotor) {
             openDiagnosticWindow(component);
         }
     }
