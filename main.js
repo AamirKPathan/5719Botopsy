@@ -236,27 +236,100 @@ function setRootFault(componentId, faultType) {
     console.log("Robot State After Fault Propagation:", robotState);
 }
 
+const dependencyGraph = {
+
+    battery: [
+        "breaker"
+    ],
+
+    breaker: [
+        "pdp"
+    ],
+
+    pdp: [
+        "drive_spark_1",
+        "drive_spark_2",
+        "drive_spark_3",
+        "drive_spark_4",
+        "shoot_spark_1",
+        "shoot_spark_2"
+    ],
+
+    roborio: [
+        "drive_spark_1",
+        "drive_spark_2",
+        "drive_spark_3",
+        "drive_spark_4",
+        "shoot_spark_1",
+        "shoot_spark_2"
+    ],
+
+    drive_spark_1: [
+        "drive_motor_1"
+    ],
+
+    drive_spark_2: [
+        "drive_motor_2"
+    ],
+
+    drive_spark_3: [
+        "drive_motor_3"
+    ],
+
+    drive_spark_4: [
+        "drive_motor_4"
+    ],
+
+    shoot_spark_1: [
+        "shooter_motor_1"
+    ],
+
+    shoot_spark_2: [
+        "shooter_motor_2"
+    ]
+};
+
+function applyFaultPropagation() {
+    for (const fault of activeFaults) {
+        if (fault.faultType !== "POWER_DISCONNECTED") continue;
+
+        const pendingComponents = [fault.componentId];
+        const affectedComponents = new Set();
+
+        while (pendingComponents.length > 0) {
+            const componentId = pendingComponents.shift();
+
+            if (affectedComponents.has(componentId)) continue;
+            affectedComponents.add(componentId);
+
+            const dependentComponents = dependencyGraph[componentId] || [];
+            pendingComponents.push(...dependentComponents);
+        }
+
+        for (const componentId of affectedComponents) {
+            const component = robotState[componentId];
+
+            if (!component) continue;
+
+            for (const stat of Object.keys(component)) {
+                if (stat === "status") {
+                    component[stat] = "OFF";
+                }
+                else if (stat === "connection") {
+                    component[stat] = "DISCONNECTED";
+                }
+                else {
+                    component[stat] = "NONE";
+                }
+            }
+        }
+    }
+}
+
 setRootFault (
     "drive_spark_2",
     "POWER_DISCONNECTED"
 )
-
-function applyFaultPropagation() {
-    for (const fault of activeFaults) {
-
-        if (
-            fault.componentId === "drive_spark_2" &&
-            fault.faultType === "DISCONNECTED"
-        ) {
-            robotState.drive_spark_2.status = "OFF";
-            robotState.drive_spark_2.connection = "DISCONNECTED";
-
-            robotState.drive_motor_2.status = "OFF";
-            robotState.drive_motor_1.rpm = "NONE";
-            robotState.drive_motor_1.current = "NONE";
-        }
-    }
-}
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
