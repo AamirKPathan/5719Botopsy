@@ -290,37 +290,64 @@ const dependencyGraph = {
 };
 
 function applyFaultPropagation() {
+
     for (const fault of activeFaults) {
-        if (fault.faultType !== "POWER_DISCONNECTED") continue;
 
-        const pendingComponents = [fault.componentId];
-        const affectedComponents = new Set();
+        const rootComponent = fault.componentId;
 
-        while (pendingComponents.length > 0) {
-            const componentId = pendingComponents.shift();
+        const affectedComponents = [];
+        const queue = [rootComponent];
+        const visited = new Set();
 
-            if (affectedComponents.has(componentId)) continue;
-            affectedComponents.add(componentId);
+        while (queue.length > 0) {
 
-            const dependentComponents = dependencyGraph[componentId] || [];
-            pendingComponents.push(...dependentComponents);
+            const currentComponent = queue.shift();
+
+            if (visited.has(currentComponent)) {
+                continue;
+            }
+
+            visited.add(currentComponent);
+
+            const dependencies = dependencyGraph[currentComponent] || [];
+
+            for (const dependency of dependencies) {
+
+                affectedComponents.push(dependency);
+                queue.push(dependency);
+            }
         }
 
         for (const componentId of affectedComponents) {
+
             const component = robotState[componentId];
 
-            if (!component) continue;
+            if (!component) {
+                continue;
+            }
 
-            for (const stat of Object.keys(component)) {
-                if (stat === "status") {
-                    component[stat] = "OFF";
-                }
-                else if (stat === "connection") {
-                    component[stat] = "DISCONNECTED";
-                }
-                else {
-                    component[stat] = "NONE";
-                }
+            component.status = "OFF";
+
+            if ("connection" in component) {
+                component.connection = "DISCONNECTED";
+            }
+
+            if ("rpm" in component) {
+                component.rpm = "NONE";
+            }
+
+            if ("current" in component) {
+                component.current = "NONE";
+            }
+        }
+
+        const root = robotState[rootComponent];
+
+        if (root) {
+            root.status = "OFF";
+
+            if ("connection" in root) {
+                root.connection = "DISCONNECTED";
             }
         }
     }
