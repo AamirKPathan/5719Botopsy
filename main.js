@@ -219,6 +219,29 @@ function resetRobotState() {
     }
 }
 
+const faultBehaviors = {
+    POWER_DISCONNECTED: {
+        status: "OFF",
+        connection: "DISCONNECTED",
+        rpm: "NONE",
+        current: "NONE"
+    },
+
+    CAN_DISCONNECTED: {
+        status: "ON",
+        connection: "DISCONNECTED",
+    },
+
+    OVERHEATED: {
+        temperature: "HIGH",
+    },
+
+    MOTOR_JAMMED: {
+        rpm: "NONE",
+        current: "HIGH",
+    }
+};
+
 function setRootFault(componentId, faultType) {
     activeFaults = [];
     resetRobotState();
@@ -231,27 +254,6 @@ function setRootFault(componentId, faultType) {
     activeFaults.push(fault);
 
     console.log("Root Fault Created:", fault);
-
-    const faultBehaviors = {
-        POWER_DISCONNECTED: {
-            status: "OFF",
-            connection: "DISCONNECTED",
-            rpm: "NONE",
-            current: "NONE"
-        },
-        CAN_DISCONNECTED: {
-            status: "ON",
-            connection: "DISCONNECTED",
-        },
-
-        OVERHEATED: {
-            temperature: "HIGH",
-        },
-        MOTOR_JAMMED: {
-            rpm: "NONE",
-            current: "HIGH",
-        }
-    };
 
     applyFaultPropagation();
     console.log("Robot State After Fault Propagation:", robotState);
@@ -317,7 +319,7 @@ function applyFaultPropagation() {
         const rootComponent = fault.componentId;
 
         const affectedComponents = [];
-        const queue = [t];
+        const queue = [rootComponent];
         const visited = new Set();
 
         while (queue.length > 0) {
@@ -349,7 +351,7 @@ function applyFaultPropagation() {
 
             const behavior = faultBehaviors[fault.faultType];
 
-            if (behavior) {
+            if (!behavior) {
                 continue;
             }
 
