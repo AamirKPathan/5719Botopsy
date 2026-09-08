@@ -363,12 +363,13 @@ function applyFaultPropagation() {
         }
 
         const root = robotState[rootComponent];
+        const rootBehavior = faultBehaviors[fault.faultType];
 
-        if (root) {
-            root.status = "OFF";
-
-            if ("connection" in root) {
-                root.connection = "DISCONNECTED";
+        if (root && rootBehavior) {
+            for (const [stat, value] of Object.entries(rootBehavior)) {
+                if (stat in root) {
+                    root[stat] = value;
+                }
             }
         }
     }
