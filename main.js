@@ -260,55 +260,45 @@ function setRootFault(componentId, faultType) {
 }
 
 const dependencyGraph = {
-
     battery: [
-        "breaker"
+        {target: "breaker", type: "POWER"},
     ],
-
     breaker: [
-        "pdp"
+        {target: "pdp", type: "POWER"},
     ],
-
     pdp: [
-        "drive_spark_1",
-        "drive_spark_2",
-        "drive_spark_3",
-        "drive_spark_4",
-        "shoot_spark_1",
-        "shoot_spark_2"
+        {target: "drive_spark_1", type: "POWER"},
+        {target: "drive_spark_2", type: "POWER"},
+        {target: "drive_spark_3", type: "POWER"},
+        {target: "drive_spark_4", type: "POWER"},
+        {target: "shoot_spark_1", type: "POWER"},
+        {target: "shoot_spark_2", type: "POWER"}
     ],
-
     roborio: [
-        "drive_spark_1",
-        "drive_spark_2",
-        "drive_spark_3",
-        "drive_spark_4",
-        "shoot_spark_1",
-        "shoot_spark_2"
+        {target: "drive_spark_1", type: "CAN"},
+        {target: "drive_spark_2", type: "CAN"},
+        {target: "drive_spark_3", type: "CAN"},
+        {target: "drive_spark_4", type: "CAN"},
+        {target: "shoot_spark_1", type: "CAN"},
+        {target: "shoot_spark_2", type: "CAN"}
     ],
-
     drive_spark_1: [
-        "drive_motor_1"
+        {target: "drive_motor_1", type: "POWER"},
     ],
-
     drive_spark_2: [
-        "drive_motor_2"
+        {target: "drive_motor_2", type: "POWER"},
     ],
-
     drive_spark_3: [
-        "drive_motor_3"
+        {target: "drive_motor_3", type: "POWER"},
     ],
-
     drive_spark_4: [
-        "drive_motor_4"
+        {target: "drive_motor_4", type: "POWER"},
     ],
-
     shoot_spark_1: [
-        "shooter_motor_1"
+        {target: "shoot_motor_1", type: "POWER"},
     ],
-
     shoot_spark_2: [
-        "shooter_motor_2"
+        {target: "shoot_motor_2", type: "POWER"},
     ]
 };
 
