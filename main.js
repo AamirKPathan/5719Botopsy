@@ -164,13 +164,13 @@ const robotState = {
         current: "NORMAL",
         connection: "CONNECTED"
     },
-    shoot_spark_1: {
+    shooter_spark_1: {
         status: "ON",
         temperature: "NORMAL",
         current: "NORMAL",
         connection: "CONNECTED"
     },
-    shoot_spark_2: {
+    shooter_spark_2: {
         status: "ON",
         temperature: "NORMAL",
         current: "NORMAL",
@@ -307,8 +307,8 @@ function applyFaultPropagation() {
     for (const fault of activeFaults) {
 
         const rootComponent = fault.componentId;
+        const faultType = fault.faultType;
 
-        const affectedComponents = [];
         const queue = [rootComponent];
         const visited = new Set();
 
@@ -326,28 +326,43 @@ function applyFaultPropagation() {
 
             for (const dependency of dependencies) {
 
-                affectedComponents.push(dependency);
-                queue.push(dependency);
-            }
-        }
+                const target = dependency.target;
+                const type = dependency.type;
 
-        for (const componentId of affectedComponents) {
+                if (
+                    faultType === "POWER_DISCONNECTED" && type === "POWER"
+                ) {
+                    const component = robotState[target];
 
-            const component = robotState[componentId];
+                    if (component) {
+                        if ("status" in component) {
+                            component.status = "OFF";
+                        }
+                        if ("connection" in component) {
+                            component.connection = "DISCONNECTED";
+                        }
+                        if ("rpm" in component) {
+                            component.rpm = "NONE";
+                        }
+                        if ("current" in component) {
+                            component.current = "NONE";
+                        }
+                    }
 
-            if (!component) {
-                continue;
-            }
+                    queue.push(target);
+                }
+                else if (
+                faultType === "CAN_DISCONNECTED" && type === "CAN"
+                ) {
+                    const component = robotState[target];
 
-            const behavior = faultBehaviors[fault.faultType];
+                    if (component) {
+                        if ("connection" in component) {
+                            component.connection = "DISCONNECTED";
+                        }
+                    }
 
-            if (!behavior) {
-                continue;
-            }
-
-            for (const [stat, value] of Object.entries(behavior)) {
-                if (stat in component) {
-                    component[stat] = value;
+                    queue.push(target);
                 }
             }
         }
@@ -362,6 +377,7 @@ function applyFaultPropagation() {
                 }
             }
         }
+
     }
 }
 
@@ -774,7 +790,7 @@ const shootSparkHitbox1 = new THREE.Mesh(
     })
 );
 shootSparkHitbox1.position.set(0.5, 0.6, 0.95);
-shootSparkHitbox1.userData.componentId = "shoot_spark_1";
+shootSparkHitbox1.userData.componentId = "shooter_spark_1";
 shootSparkHitbox1.userData.componentName = "Shoot Spark 1";
 
 componentHitboxes.add(shootSparkHitbox1);
@@ -787,7 +803,7 @@ const shootSparkHitbox2 = new THREE.Mesh(
     })
 );
 shootSparkHitbox2.position.set(0.5, 0.6, 1.1);
-shootSparkHitbox2.userData.componentId = "shoot_spark_2";
+shootSparkHitbox2.userData.componentId = "shooter_spark_2";
 shootSparkHitbox2.userData.componentName = "Shoot Spark 2";
 
 componentHitboxes.add(shootSparkHitbox2);
