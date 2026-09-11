@@ -880,14 +880,7 @@ renderer.domElement.addEventListener("click", (event) => {
             component.userData.componentName,
         );
 
-        const componentId = component.userData.componentId;
-        const isMotor =
-            componentId.startsWith("drive_motor_") ||
-            componentId.startsWith("shooter_motor_");
-
-        if (isMotor) {
-            openDiagnosticWindow(component);
-        }
+        openDiagnosticWindow(component);
     }
 });
 
