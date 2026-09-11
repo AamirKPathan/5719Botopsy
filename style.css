@@ -134,6 +134,84 @@ body {
     z-index: 50;
 }
 
+#stopButton {
+    position: fixed;
+    top: 58px;
+    right: 25px;
+    width: 125px;
+    height: 38px;
+    background: #a00000;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    z-index: 50;
+}
+
+#stopButton:hover {
+    background: #c00000;
+}
+
+#quitDialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    width: 360px;
+    padding: 28px;
+    background: #111111;
+    border: 2px solid #ff1493;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ff1493, 0 0 30px #ff1493;
+    z-index: 100;
+}
+
+#quitMessage {
+    color: white;
+    font-size: 21px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#quitActions {
+    display: flex;
+    gap: 16px;
+}
+
+#quitActions button {
+    width: 90px;
+    height: 40px;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#confirmQuitButton {
+    background: #a00000;
+}
+
+#confirmQuitButton:hover {
+    background: #c00000;
+}
+
+#cancelQuitButton {
+    background: #555555;
+}
+
+#cancelQuitButton:hover {
+    background: #777777;
+}
+
 #diagnosticWindow {
     position: fixed;
     top: 50%;

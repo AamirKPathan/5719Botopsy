@@ -44,6 +44,37 @@ timerDisplay.id = "timer";
 timerDisplay.textContent = "00:00:00";
 document.body.appendChild(timerDisplay);
 
+const stopButton = document.createElement("button");
+stopButton.id = "stopButton";
+stopButton.textContent = "STOP";
+stopButton.style.display = "none";
+document.body.appendChild(stopButton);
+
+const quitDialog = document.createElement("div");
+quitDialog.id = "quitDialog";
+quitDialog.style.display = "none";
+
+const quitMessage = document.createElement("div");
+quitMessage.id = "quitMessage";
+quitMessage.textContent = "Are you sure you want to quit?";
+
+const quitActions = document.createElement("div");
+quitActions.id = "quitActions";
+
+const confirmQuitButton = document.createElement("button");
+confirmQuitButton.id = "confirmQuitButton";
+confirmQuitButton.textContent = "YES";
+
+const cancelQuitButton = document.createElement("button");
+cancelQuitButton.id = "cancelQuitButton";
+cancelQuitButton.textContent = "NO";
+
+quitActions.appendChild(confirmQuitButton);
+quitActions.appendChild(cancelQuitButton);
+quitDialog.appendChild(quitMessage);
+quitDialog.appendChild(quitActions);
+document.body.appendChild(quitDialog);
+
 const issueScreen = document.createElement("div");
 
 issueScreen.id = "issueScreen";
@@ -78,7 +109,25 @@ beginButton.addEventListener("click", () => {
     issueScreen.style.display = "none";
     gameStartTime = performance.now();
     timerRunning = true;
+    stopButton.style.display = "block";
     updateTimer();
+});
+
+stopButton.addEventListener("click", () => {
+    quitDialog.style.display = "flex";
+});
+
+cancelQuitButton.addEventListener("click", () => {
+    quitDialog.style.display = "none";
+});
+
+confirmQuitButton.addEventListener("click", () => {
+    timerRunning = false;
+    timerDisplay.textContent = "00:00:00";
+    stopButton.style.display = "none";
+    quitDialog.style.display = "none";
+    issueScreen.style.display = "none";
+    startButton.style.display = "block";
 });
 
 function updateTimer() {
