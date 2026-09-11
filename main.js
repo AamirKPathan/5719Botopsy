@@ -431,8 +431,8 @@ function applyFaultPropagation() {
 }
 
 setRootFault (
-    "drive_spark_2",
-    "POWER_DISCONNECTED"
+    "roborio",
+    "CAN_DISCONNECTED"
 )
 console.log("Spark 2:", robotState.drive_spark_2);
 console.log("Motor 2:", robotState.drive_motor_2);
