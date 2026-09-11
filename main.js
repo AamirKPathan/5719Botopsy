@@ -434,6 +434,9 @@ setRootFault (
     "drive_spark_2",
     "POWER_DISCONNECTED"
 )
+console.log("Spark 2:", robotState.drive_spark_2);
+console.log("Motor 2:", robotState.drive_motor_2);
+console.log("Motor 1:", robotState.drive_motor_1);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
