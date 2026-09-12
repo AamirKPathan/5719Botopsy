@@ -374,6 +374,28 @@ function applyFaultPropagation() {
 
         const rootComponent = fault.componentId;
         const faultType = fault.faultType;
+        const behavior = faultBehaviors[faultType];
+
+        if (!behavior) {
+            console.error("Unknown fault type:", faultType);
+            continue;
+        }
+
+        // Apply the fault directly to the root component
+        const root = robotState[rootComponent];
+
+        if (root) {
+            for (const [stat, value] of Object.entries(behavior.root)) {
+                if (stat in root) {
+                    root[stat] = value;
+                }
+            }
+        }
+
+        // No propagation required
+        if (behavior.propagation === "NONE") {
+            continue;
+        }
 
         const queue = [rootComponent];
         const visited = new Set();
@@ -388,62 +410,44 @@ function applyFaultPropagation() {
 
             visited.add(currentComponent);
 
-            const dependencies = dependencyGraph[currentComponent] || [];
+            const dependencies =
+                dependencyGraph[currentComponent] || [];
 
             for (const dependency of dependencies) {
 
                 const target = dependency.target;
                 const type = dependency.type;
 
-                if (
-                    faultType === "POWER_DISCONNECTED" && type === "POWER"
-                ) {
-                    const component = robotState[target];
+                // Only follow the type of connection
+                // specified by this fault
+                if (type !== behavior.propagation) {
+                    continue;
+                }
 
-                    if (component) {
-                        if ("status" in component) {
-                            component.status = "OFF";
-                        }
-                        if ("connection" in component) {
-                            component.connection = "DISCONNECTED";
-                        }
-                        if ("rpm" in component) {
-                            component.rpm = "NONE";
-                        }
-                        if ("current" in component) {
-                            component.current = "NONE";
-                        }
+                const component = robotState[target];
+
+                if (component) {
+
+                    if ("status" in component) {
+                        component.status = "OFF";
                     }
 
-                    queue.push(target);
-                }
-                else if (
-                faultType === "CAN_DISCONNECTED" && type === "CAN"
-                ) {
-                    const component = robotState[target];
-
-                    if (component) {
-                        if ("connection" in component) {
-                            component.connection = "DISCONNECTED";
-                        }
+                    if ("connection" in component) {
+                        component.connection = "DISCONNECTED";
                     }
 
-                    queue.push(target);
+                    if ("rpm" in component) {
+                        component.rpm = "NONE";
+                    }
+
+                    if ("current" in component) {
+                        component.current = "NONE";
+                    }
                 }
+
+                queue.push(target);
             }
         }
-
-        const root = robotState[rootComponent];
-        const rootBehavior = faultBehaviors[fault.faultType];
-
-        if (root && rootBehavior) {
-            for (const [stat, value] of Object.entries(rootBehavior)) {
-                if (stat in root) {
-                    root[stat] = value;
-                }
-            }
-        }
-
     }
 }
 
