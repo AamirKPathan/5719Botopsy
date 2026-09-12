@@ -269,26 +269,43 @@ function resetRobotState() {
 }
 
 const faultBehaviors = {
+
     POWER_DISCONNECTED: {
-        status: "OFF",
-        connection: "DISCONNECTED",
-        rpm: "NONE",
-        current: "NONE"
+        root: {
+            status: "OFF",
+            connection: "DISCONNECTED",
+            rpm: "NONE",
+            current: "NONE"
+        },
+
+        propagation: "POWER"
     },
 
     CAN_DISCONNECTED: {
-        status: "ON",
-        connection: "DISCONNECTED",
+        root: {
+            connection: "DISCONNECTED"
+        },
+
+        propagation: "CAN"
     },
 
     OVERHEATED: {
-        temperature: "HIGH",
+        root: {
+            temperature: "HIGH"
+        },
+
+        propagation: "NONE"
     },
 
     MOTOR_JAMMED: {
-        rpm: "NONE",
-        current: "HIGH",
+        root: {
+            rpm: "NONE",
+            current: "HIGH"
+        },
+
+        propagation: "NONE"
     }
+
 };
 
 function setRootFault(componentId, faultType) {
