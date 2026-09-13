@@ -278,7 +278,14 @@ const faultBehaviors = {
             current: "NONE"
         },
 
-        propagation: "POWER"
+        propagation: "POWER",
+
+        propagatedEffect: {
+            status: "OFF",
+            connection: "DISCONNECTED",
+            rpm: "NONE",
+            current: "NONE"
+        }
     },
 
     CAN_DISCONNECTED: {
@@ -286,7 +293,11 @@ const faultBehaviors = {
             connection: "DISCONNECTED"
         },
 
-        propagation: "CAN"
+        propagation: "CAN",
+
+        propagatedEffect: {
+            connection: "DISCONNECTED"
+        }
     },
 
     OVERHEATED: {
@@ -418,7 +429,7 @@ function applyFaultPropagation() {
                 const target = dependency.target;
                 const type = dependency.type;
 
-                // Only follow the type of connection
+                // Only follow the connection type
                 // specified by this fault
                 if (type !== behavior.propagation) {
                     continue;
@@ -428,20 +439,14 @@ function applyFaultPropagation() {
 
                 if (component) {
 
-                    if ("status" in component) {
-                        component.status = "OFF";
-                    }
+                    // Apply the correct effect for this
+                    // type of propagated fault
+                    for (const [stat, value]
+                        of Object.entries(behavior.propagatedEffect)) {
 
-                    if ("connection" in component) {
-                        component.connection = "DISCONNECTED";
-                    }
-
-                    if ("rpm" in component) {
-                        component.rpm = "NONE";
-                    }
-
-                    if ("current" in component) {
-                        component.current = "NONE";
+                        if (stat in component) {
+                            component[stat] = value;
+                        }
                     }
                 }
 
